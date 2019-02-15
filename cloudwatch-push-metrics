@@ -14,7 +14,7 @@ shift 1 #going to metrics
 ARGS=$* #saving metrics in array
 for METRIC_VALUE in $ARGS
 do
-	printf "Pushing metric value %s to %s Metric in %s Namespace with %s dimension..\n" $METRIC_VALUE $METRIC_NAME $METRIC_DIMENSIONS
+	printf "Pushing metric value %s to %s Metric in %s Namespace with %s dimension..\n" $METRIC_VALUE $METRIC_NAME $METRIC_NAMESPACE $METRIC_DIMENSIONS
 	aws cloudwatch put-metric-data --metric-name $METRIC_NAME --namespace $METRIC_NAMESPACE --value $METRIC_VALUE --dimensions $METRIC_DIMENSIONS --region $REGION
 	printf "Sleeping for $PERIOD seconds\n"
 	sleep $PERIOD
