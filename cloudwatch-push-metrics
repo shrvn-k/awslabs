@@ -1,0 +1,22 @@
+#!/bin/bash
+#This script pushes datapoints provided as command line args to the configured metric
+#Usage: ./cloudwatch-push-metrics period data1 data2 .. dataN
+
+#Change below configuration as required
+METRIC_NAMESPACE="TEST_NAMESPACE"
+METRIC_NAME="TEST_METRIC_01"
+METRIC_DIMENSIONS="DIMENSION=TEST_DIMENSION"
+REGION="us-east-1"
+
+PERIOD=$1 #setting period value
+printf "Period is %s\n" $1
+shift 1 #going to metrics
+ARGS=$* #saving metrics in array
+for METRIC_VALUE in $ARGS
+do
+	printf "Pushing metric value %s to %s Metric in %s Namespace with %s dimension..\n" $METRIC_VALUE $METRIC_NAME $METRIC_DIMENSIONS
+	aws cloudwatch put-metric-data --metric-name $METRIC_NAME --namespace $METRIC_NAMESPACE --value $METRIC_VALUE --dimensions $METRIC_DIMENSIONS --region $REGION
+	printf "Sleeping for $PERIOD seconds\n"
+	sleep $PERIOD
+done
+printf "Finished pushing metrics"
